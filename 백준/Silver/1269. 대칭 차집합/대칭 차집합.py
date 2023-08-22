@@ -1,0 +1,6 @@
+A, B = map(int, input().split())
+arrA = list(map(int, input().split()))
+arrB = list(map(int, input().split()))
+a = set(arrA)
+b = set(arrB)
+print(len(a - b)+len(b - a))
