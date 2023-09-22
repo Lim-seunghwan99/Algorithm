@@ -1,52 +1,36 @@
-import heapq
-n, m, t = map(int, input().split())
-# n번 까지의 집, m개의 간선, t목표 지점
-graph = [[] for _ in range(n + 1)]
-for i in range(m):
-    x, y, c = map(int, input().split())
-    graph[x].append([y, c])
+def boj1238():
+    import heapq
+    
+    def dijkstra(start, dist, graph, distance):
+        h = []
+        heapq.heappush(h, (dist, start))
+        distance[start] = dist
+        while h:
+            dist, node = heapq.heappop(h)
+            for nxt in graph[node]:
+                nxt_node = nxt[0]
+                nxt_dist = nxt[1]
+                if distance[nxt_node] > dist + nxt_dist:
+                    distance[nxt_node] = dist + nxt_dist
+                    heapq.heappush(h, (distance[nxt_node], nxt_node))
+
+    n, m, x = map(int, input().split())
+    graph1 = [[] for _ in range(n + 1)]
+    graph2 = [[] for _ in range(n + 1)]
+    for _ in range(m):
+        s, e, t = map(int, input().split())
+        graph1[s].append((e, t))
+        graph2[e].append((s, t))
+    distance1 = [float('inf')] * (n+1)
+    dijkstra(x, 0, graph1, distance1)
+
+    distance2 = [float('inf')] * (n + 1)
+    dijkstra(x, 0, graph2, distance2)
+
+    ans = 0
+    for i in range(1, n+1):
+        ans = max(ans, distance1[i] + distance2[i])
+    print(ans)
 
 
-# print(graph)
-
-# 누적 거리 저장
-def dijkstra(start):
-    pq = []
-    heapq.heappush(pq, (0, start))
-    distance[start] = 0
-
-    while pq:
-        dist, now = heapq.heappop(pq)
-
-        if distance[now] < dist:
-            continue
-
-        for next in graph[now]:
-            next_node = next[0]
-            cost = next[1]
-
-            new_cost = dist + cost
-
-            if distance[next_node] <= new_cost:
-                continue
-
-            distance[next_node] = new_cost
-            heapq.heappush(pq, (new_cost, next_node))
-
-
-ans = [0] * (n + 1)
-for i in range(1, n + 1):
-    distance = [float('inf')] * (n + 1)
-    dijkstra(i)
-    # print(f'{i} {distance[t]}')
-    if i == t:
-        # print('여기 찍힘')
-        for j in range(1, n + 1):
-            temp = distance[j]
-            ans[j] += temp
-    else:
-        temp = distance[t]
-        ans[i] += temp
-        # print('여기 찍힘2')
-    # print(f'{i} {distance}')
-print(f'{max(ans)}')
+boj1238()
