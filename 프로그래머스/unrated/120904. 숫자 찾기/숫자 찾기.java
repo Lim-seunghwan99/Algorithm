@@ -1,13 +1,9 @@
 class Solution {
     public int solution(int num, int k) {
-        int answer = -1;
-        String temp = Integer.toString(num);
-        int[] digits = new int[temp.length()];
-        for(int i=0; i< temp.length(); i++){
-            if((temp.charAt(i) - '0') == k){
-                answer = i + 1;
-                break;
-            }
+        String temp = String.valueOf(num);
+        int answer = temp.indexOf(String.valueOf(k));
+        if(answer != -1){
+            answer += 1;
         }
         return answer;
     }
