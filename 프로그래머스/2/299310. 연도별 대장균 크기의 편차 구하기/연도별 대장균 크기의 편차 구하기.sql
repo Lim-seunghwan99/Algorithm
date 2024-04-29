@@ -1,0 +1,28 @@
+-- 코드를 작성해주세요
+-- 연도와 연도별 가장 큰 대장균의 크기를 매핑한 테이블 생성
+WITH MAX_SIZE_OF_COLONY_PER_YEAR AS (
+    SELECT
+        EXTRACT(YEAR FROM DIFFERENTIATION_DATE) AS YEAR,
+        MAX(SIZE_OF_COLONY) AS MAX_SIZE_OF_COLONY
+    FROM
+        ECOLI_DATA
+    GROUP BY
+        YEAR
+),
+-- 해당 테이블과 주어진 테이블을 JOIN하여 ID, 연도, 분화한 대장균 크기의 편차를 매핑한 테이블 생성
+ECOLI_YEAR_DATA AS (
+    SELECT 
+        ed.ID,
+        EXTRACT(YEAR FROM ed.DIFFERENTIATION_DATE) AS YEAR,
+        MAX_SIZE_OF_COLONY - ed.SIZE_OF_COLONY AS YEAR_DEV
+    FROM
+        ECOLI_DATA AS ed
+    INNER JOIN
+        MAX_SIZE_OF_COLONY_PER_YEAR msocpy
+    ON
+        EXTRACT(YEAR FROM ed.DIFFERENTIATION_DATE) = msocpy.YEAR
+)
+
+SELECT YEAR, YEAR_DEV, ID
+FROM ECOLI_YEAR_DATA
+ORDER BY YEAR, YEAR_DEV;
