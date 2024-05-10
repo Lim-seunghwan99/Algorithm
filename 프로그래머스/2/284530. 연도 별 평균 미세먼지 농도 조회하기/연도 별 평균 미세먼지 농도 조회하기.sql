@@ -1,0 +1,8 @@
+-- 코드를 작성해주세요
+# 연도 별 평균 미세먼지 오염도와(PM10), 평균 초미세먼지 오염도 조회(PM2.5) 소수 셋째 자리에서 반올림
+SELECT YEAR(YM) AS YEAR, ROUND(AVG(PM_VAL1), 2) AS "PM10", ROUND(AVG(PM_VAL2), 2) AS "PM2.5"
+FROM AIR_POLLUTION
+GROUP BY YEAR, LOCATION1, LOCATION2
+HAVING LOCATION2 = '수원'
+ORDER BY 1;
+
