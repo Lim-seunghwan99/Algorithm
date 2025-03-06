@@ -1,34 +1,31 @@
-def boj2665():
-    from collections import deque
-    n = int(input())
-    arr = [list(input()) for _ in range(n)]
-    # 윗줄 맨 왼쪽 방은 항상 흰 방
-    # 아랫줄 맨 오른쪽 방은 끝방,
-    # 가장 적은 수의 방 색을 바꾸려고 한다.
-    dx = [0, 0, 1, -1]
-    dy = [1, -1, 0, 0]
-    visited = [[1e9] * n for _ in range(n)]
+import heapq
 
-    # 1일 때 흰 방
-    def bfs():
-        x = 0
-        y = 0
-        q = deque()
-        q.append((0, 0, 0))
-        visited[0][0] = 0
-        while q:
-            cnt, x, y = q.popleft()
-            for k in range(4):
-                nx = x + dx[k]
-                ny = y + dy[k]
-                if 0 <= nx < n and 0 <= ny < n and visited[nx][ny] > cnt:
-                    if arr[nx][ny] == '1':
-                        visited[nx][ny] = cnt
-                        q.append((cnt, nx, ny))
-                    else:
-                        visited[nx][ny] = cnt + 1
-                        q.append((cnt + 1, nx, ny))
-    bfs()
-    print(visited[n-1][n-1])
+dx = [1, 0, -1, 0]
+dy = [0, 1, 0 ,-1]
 
-boj2665()
+n = int(input())
+arr = [list(map(int, input())) for _ in range(n)]
+
+visited = [[False] * n for _ in range(n)]
+def bfs(x, y):
+    heap = []
+    heapq.heappush(heap, (0, x, y))
+
+    while heap:
+        count, cx, cy = heapq.heappop(heap)
+        visited[cx][cy] = True
+
+        if cx == (n - 1) and cy == (n - 1):
+            return count
+
+        for i in range(4):
+            nx = cx + dx[i]
+            ny = cy + dy[i]
+            if (0 <= nx < n) and (0 <= ny < n) and not visited[nx][ny]:
+                visited[nx][ny] = True
+                if arr[nx][ny] == 1:
+                    heapq.heappush(heap, (count, nx, ny))
+                else:
+                    heapq.heappush(heap, (count + 1, nx, ny))
+
+print(bfs(0,0))
