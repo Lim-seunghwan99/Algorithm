@@ -1,3 +1,5 @@
+import sys
+input = sys.stdin.readline
 S = input()
 q = int(input())
 # 특정 문자열에서, 특정 알파벳과 문자열의 구간이 주어지면,
