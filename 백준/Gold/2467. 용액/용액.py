@@ -1,29 +1,33 @@
 def boj2467():
     N = int(input())
-    arr = list(map(int, input().split()))
+    arr = list(map(int, input().split()))  # 정렬된 상태로 주어진다.
+    # 0에 가장 가까운 용액을 만들어 내는 두 용액의 특성값을 출력한다. (오름차순)
+    # 0에 가장 가까운 용액을 만들어내는 경우가 두 개 이상인 경우, 아무거나 출력
     left = 0
-    right = N - 1
-    res = float('inf')  # 초기값을 충분히 크게 설정
-    ans1 = ans2 = 0
-
+    right = len(arr) - 1
+    res = 10**12
+    ans1 = 10**12
+    ans2 = 10**12
     while left < right:
+        # 두 개의 합을 구한 후, 만약 +라면 right - 1, 반대면 left + 1
         chk = arr[left] + arr[right]
-        if abs(chk) < res:
-            res = abs(chk)
+        if chk == 0:
             ans1 = arr[left]
             ans2 = arr[right]
-            if chk == 0:  # 완전한 정답이면 바로 끝내기
-                break
-        if chk < 0:
-            left += 1
-        else:
+            break
+        elif chk > 0:
+            if abs(res) > abs(chk):
+                ans1 = arr[left]
+                ans2 = arr[right]
+                res = abs(chk)
             right -= 1
-
+        elif chk < 0:
+            if abs(res) > abs(chk):
+                ans1 = arr[left]
+                ans2 = arr[right]
+                res = abs(chk)
+            left += 1
     print(ans1, ans2)
-
-
-
-
 
 
 if __name__ == "__main__":
