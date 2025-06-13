@@ -5,39 +5,38 @@
 #define MAX_SIZE 100001
 
 void BOJ10093() {
-	int num1, num2;
-	scanf("%d %d", &num1, &num2);
-	
-	if (num1 > num2) {
-		int temp = num1;
-		num1 = num2;
-		num2 = temp;
-	}
+    long long num1, num2;
+    scanf("%lld %lld", &num1, &num2);
 
-	if (num1 == num2) {
-		printf("%d", 0);
-		return;
-	}
-	else {
-		printf("%d\n", abs(num1 - num2) - 1);
-	}
-	
-	int cnt = (num2 - num1) - 1;
-	if (cnt > 0) {
-		int numbers[MAX_SIZE];
+    if (num1 > num2) {
+        long long temp = num1;
+        num1 = num2;
+        num2 = temp;
+    }
 
-		for (int i=0; i < cnt; ++i) {
-			numbers[i] = num1 + i + 1;
-		}
+    if (num1 == num2) {
+        printf("0\n");
+        return;
+    }
 
-		for (int i = 0; i < cnt; ++i) {
-			printf("%d ", numbers[i]);
-		}
-	}
+    long long cnt = num2 - num1 - 1;
+    printf("%lld\n", cnt);
 
+    if (cnt > 0) {
+        long long numbers[MAX_SIZE];
+
+        for (int i = 0; i < cnt; ++i) {
+            numbers[i] = num1 + i + 1;
+        }
+
+        for (int i = 0; i < cnt; ++i) {
+            printf("%lld ", numbers[i]);
+        }
+        printf("\n");
+    }
 }
- 
+
 int main() {
-	BOJ10093();
-	return 0;
+    BOJ10093();
+    return 0;
 }
