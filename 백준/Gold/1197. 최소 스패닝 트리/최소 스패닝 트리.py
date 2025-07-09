@@ -1,3 +1,7 @@
+import sys
+input = sys.stdin.readline
+sys.setrecursionlimit(10**5)
+
 def boj1197():
     # 간선의 수가 많으므로 크루스칼 알고리즘을 쓴다.
     V, E = map(int, input().split())
@@ -41,4 +45,7 @@ def boj1197():
     print(sv)
 
 
-boj1197()
+
+
+if __name__ == "__main__":
+    boj1197()
